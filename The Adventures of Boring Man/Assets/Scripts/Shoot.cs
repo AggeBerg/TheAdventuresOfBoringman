@@ -19,10 +19,12 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Debug.DrawLine(this.transform.position, this.transform.position + this.transform.right, Color.red);
         TimeSinceLastShoot = Time.time - LastShoot;
         if (Input.GetMouseButtonDown(0)){
             Debug.Log("First thing today");
             Physics2D.Raycast(Muzzle.position, new Vector2(Muzzle.rotation.x, Muzzle.rotation.y), 500, Layer);
+            Physics2D.Raycast(transform.position,transform.forward);
             Sprite.color = new Color(1f, 1f ,1f , 1f);
             LastShoot = Time.time;
         } else if (TimeSinceLastShoot > Flashtime) {
