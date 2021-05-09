@@ -7,7 +7,10 @@ public class Shooting : MonoBehaviour
     public Transform firePoint;
     public int damage = 50;
     public GameObject impactEffect;
+    public GameObject tracerEffect;
     public Animator animator;
+    public AudioSource Shot;
+    public LineRenderer bullletTrail;
 
 
     public float bulletForce = 20f;
@@ -27,24 +30,33 @@ public class Shooting : MonoBehaviour
         }
     }
 
+    void SpawnBulletTrail(Vector3 hitPoint)
+    {
+        GameObject bulletTrailEffect = Instantiate(bullletTrail.gameObject,firePoint.position, Quaternion.identity);
+
+        LineRenderer lineR = bulletTrailEffect.GetComponent<LineRenderer>();
+
+        lineR.SetPosition(0, firePoint.position);
+        if (hitPoint != null){
+            lineR.SetPosition(1, hitPoint);
+        }else lineR.SetPosition(1, firePoint.right*2);
+
+        Destroy(bulletTrailEffect, 0.1f);
+    }
+
     void Shoot()
     {
+        // Instantiate(tracerEffect.gameObject, GetComponentInChildren<Transform>().position, GetComponentInChildren<Transform>().rotation);
         RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right);
+        SpawnBulletTrail(hitInfo.point);
         animator.SetTrigger("Shoot");
+        Shot.Play(0);
 
     if(hitInfo)
     {
-        Debug.Log(hitInfo.transform.name);
-        // Enemy enemy = hitInfo.transform.GetComponent<Enemy>();
-        // if (enemy != null)
-        // {
-        //     enemy.TakeDamage(damage);
-        //}
         Instantiate(impactEffect, hitInfo.point, transform.rotation);
+        Debug.Log(hitInfo.transform.name);
+        hitInfo.transform.GetComponent<EnemyGeneral>().TakeDamage(damage);
     }
-
-        // GameObject bullet = Instantiate(bulletPrefab, firePoint.position + firePoint.transform.forward * 5, firePoint.rotation);
-        // Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        // rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
     }
 }
