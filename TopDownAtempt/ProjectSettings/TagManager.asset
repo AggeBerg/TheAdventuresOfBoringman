@@ -41,6 +41,15 @@ TagManager:
   - name: Background
     uniqueID: 3048655859
     locked: 0
+  - name: Rug
+    uniqueID: 189020407
+    locked: 0
+  - name: InnerWall
+    uniqueID: 4281396527
+    locked: 0
+  - name: OuterWall
+    uniqueID: 409441719
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

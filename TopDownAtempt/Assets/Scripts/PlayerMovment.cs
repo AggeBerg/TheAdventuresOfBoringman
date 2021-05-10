@@ -15,7 +15,7 @@ public class PlayerMovment : MonoBehaviour
     public int currentHealth;
     public bool alive = true;
 
-    public Animator animator;
+    //public Animator animator;
 
     Vector2 movement;
     Vector2 mousePos;
@@ -29,22 +29,25 @@ public class PlayerMovment : MonoBehaviour
     {
         currentHealth -= damage;
         Debug.Log(currentHealth);
-        if(currentHealth <= 0 && alive){
+        if(currentHealth < 0){
             die();
+            Debug.Log("it wont run here");
+            SceneManager.LoadScene(0);
         }
         
     }
 
-    IEnumerator Died()
-    {
-        yield return new WaitForSeconds(1);
-        SceneManager.LoadScene(0);
-    }
+    // IEnumerator Died()
+    // {
+    //     yield return new WaitForSeconds(1);
+    //     SceneManager.LoadScene(0);
+    // }
 
     void die()
     {
         alive = false;
-        animator.SetTrigger("Dead");
+        //animator.SetTrigger("Dead");
+        SceneManager.LoadScene(0);
 
     }
 
